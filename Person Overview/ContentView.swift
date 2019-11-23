@@ -70,11 +70,48 @@ Pod installation complete! There are 4 dependencies from the Podfile and 17 tota
 [!] Automatically assigning platform `iOS` with version `13.2` on target `Person Overview` because no platform was specified. Please specify a platform for this target in your Podfile. See `https://guides.cocoapods.org/syntax/podfile.html#platform`.
 
 */
+
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
+    
+    @State var email = ""
+    @State var password = ""
+    @State var shown = false
+    @State var msg = ""
+
     var body: some View {
-        Text("Hello, World!")
+        
+        VStack {
+        
+            TextField("eMail", text: $email)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .padding()
+            
+            TextField("Password", text: $password)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .padding()
+            
+            HStack {
+                Button(action: {
+                    
+                }) {
+                   Text("Signin")
+                }
+                
+                Button(action: {
+                
+                }) {
+                   Text("Signup")
+                }
+            }
+            .alert(isPresented: $shown) {
+                return Alert(title: Text(self.msg))
+            }
+            
+        }
+        
     }
 }
 
