@@ -7,7 +7,7 @@
 //
 //
 //
-// https://www.youtube.com/watch?v=S41g3E6tkbQ
+// Mark, Cmd + click starts: https://www.youtube.com/watch?v=S41g3E6tkbQ
 // Email Authentication in SwiftUI - Email Login In SwiftUI - Firebase Email Authentication in SwiftUI
 // Bundle identier for the project is: com.janhovland.Person-Overview (- is a space)
 // Bundle identier in Firebase: Person-Overview to register the app
@@ -80,30 +80,71 @@ struct ContentView: View {
     @State var password = ""
     @State var shown = false
     @State var msg = ""
-
+    
     var body: some View {
         
         VStack {
-        
+            
             TextField("eMail", text: $email)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
+                .padding()
             
             TextField("Password", text: $password)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
             
             HStack {
                 Button(action: {
                     
+                    if self.email.count == 0, self.password.count == 0 {
+                        self.msg = "Fill the content"
+                        self.shown.toggle()
+                        return
+                    }
+                    
+                    Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
+                        
+                        if err != nil {
+                            print((err!.localizedDescription) as Any)
+                            self.msg = err!.localizedDescription
+                            self.shown.toggle()
+                            return
+                        }
+                        
+                        self.msg = "Success"
+                        self.shown.toggle()
+                    }
+                    
                 }) {
-                   Text("Signin")
+                    Text("Signin")
                 }
                 
                 Button(action: {
-                
+                    
+                    if self.email.count == 0, self.password.count == 0 {
+                        self.msg = "Fill the content"
+                        self.shown.toggle()
+                        return
+                    }
+                    
+                    Auth.auth().createUser(withEmail: self.email, password: self.password) { (res, err) in
+                        
+                        if err != nil {
+                            print((err!.localizedDescription) as Any)
+                            self.msg = err!.localizedDescription
+                            self.shown.toggle()
+                            return
+                        }
+                        
+                        self.msg = "Created Successfully"
+                        self.shown.toggle()
+                        
+                    }
+                    
                 }) {
-                   Text("Signup")
+                    Text("Signup")
                 }
             }
             .alert(isPresented: $shown) {
