@@ -91,7 +91,7 @@ struct ContentView: View {
                 .autocapitalization(.none)
                 .padding()
             
-            TextField("Password", text: $password)
+            SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
@@ -116,6 +116,8 @@ struct ContentView: View {
                         self.msg = "Success"
                         self.shown.toggle()
                     }
+                    
+                    print("Signin = \(self.msg)")
                     
                 }) {
                     Text("Signin")
@@ -143,6 +145,8 @@ struct ContentView: View {
                         
                     }
                     
+                    print("Signup = \(self.msg)")
+
                 }) {
                     Text("Signup")
                 }
@@ -152,6 +156,7 @@ struct ContentView: View {
             }
             
         }
+        
         
     }
 }
