@@ -103,21 +103,21 @@ struct ContentView: View {
                         self.shown.toggle()
                         return
                     }
-                    
-                    Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
-                        
-                        if err != nil {
-                            print((err!.localizedDescription) as Any)
-                            self.msg = err!.localizedDescription
+                    DispatchQueue.main.async {
+                        Auth.auth().signIn(withEmail: self.email, password: self.password) { (result, error) in
+                            
+                            if error != nil {
+                                print((error!.localizedDescription) as Any)
+                                self.msg = error!.localizedDescription
+                                self.shown.toggle()
+                                return
+                            }
+                            
+                            self.msg = "Success"
                             self.shown.toggle()
-                            return
                         }
                         
-                        self.msg = "Success"
-                        self.shown.toggle()
                     }
-                    
-                    print("Signin = \(self.msg)")
                     
                 }) {
                     Text("Signin")
@@ -130,23 +130,22 @@ struct ContentView: View {
                         self.shown.toggle()
                         return
                     }
-                    
-                    Auth.auth().createUser(withEmail: self.email, password: self.password) { (res, err) in
-                        
-                        if err != nil {
-                            print((err!.localizedDescription) as Any)
-                            self.msg = err!.localizedDescription
+                    DispatchQueue.main.async {
+                        Auth.auth().createUser(withEmail: self.email, password: self.password) { (result, error) in
+                            
+                            if error != nil {
+                                print((error!.localizedDescription) as Any)
+                                self.msg = error!.localizedDescription
+                                self.shown.toggle()
+                                return
+                            }
+                            
+                            self.msg = "Created Successfully"
                             self.shown.toggle()
-                            return
+                            
                         }
-                        
-                        self.msg = "Created Successfully"
-                        self.shown.toggle()
-                        
                     }
                     
-                    print("Signup = \(self.msg)")
-
                 }) {
                     Text("Signup")
                 }
